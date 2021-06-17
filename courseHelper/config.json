@@ -1,7 +1,8 @@
 {
-    "uid":"",
-    "password":"",
-    "courseCode":"",
-    "msg_from":"",
-    "msg_to":""
+    "uid": "",
+    "password": "",
+    "sessionid": "",
+    "courseCode": "",
+    "msg_from": "",
+    "msg_to": ""
 }

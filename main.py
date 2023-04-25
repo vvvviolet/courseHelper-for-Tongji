@@ -1,3 +1,4 @@
+import time
 import requests
 import json
 import captcha
@@ -70,35 +71,46 @@ if __name__ == '__main__':
     headers['Cookie'] += ('JSESSIONID='+res.cookies.get_dict()['JSESSIONID'])
     headers['Cookie'] += '; '
     res=requests.get('https://ids.tongji.edu.cn:8443/nidp/app?sid=0',headers=headers)
-
-    headers['Referer']='https://1.tongji.edu.cn/'
+    
+    # authz
     res=requests.get('https://ids.tongji.edu.cn:8443/nidp/oauth/nam/authz?scope=profile&response_type=code&redirect_uri=https://1.tongji.edu.cn/api/ssoservice/system/loginIn&client_id=5fcfb123-b94d-4f76-89b8-475f33efa194'
                      ,headers=headers
                      ,allow_redirects=False)
     redirect_url = res.headers.get('location')
-    print(redirect_url)
+    # print(redirect_url)
+    
+    #authz和loginIn之间差token
 
     headers['Cookie'] += ('_PA_SDK_SSO_='+res.cookies.get_dict()['_PA_SDK_SSO_'])
     headers['Cookie'] += '; '
 
+    # loginIn
     res = requests.get(redirect_url,headers=headers,allow_redirects=False)
     location=res.headers.get('Location')
-    print(location)
-    start=location.find('token=')+6
-    end=location.find('&')
 
-    # print(location[start])
-    # print(location[end])
 
-    sessionid=location[start:end]
-    print(sessionid)
-    # res = requests.get(res.headers.get('Location'),headers=headers)
-    headers['Cookie'] += ("sessionid="+sessionid)
-    headers['Cookie'] += "; "
-  
-    # print(headers)
-    res = requests.get("https://1.tongji.edu.cn/api/ssoservice/system/loginIn",headers=headers,allow_redirects=False)
+
+
+    # ssologin
+    parsedLocation=parse.urlparse(location).query.split('&')
+    print(parsedLocation)
+
+    token=parsedLocation[0][6:]
+    uid=parsedLocation[1][4:]
+
+    headers['cookie']=headers['Cookie']
+    print(token)
+    print(uid)
+    jsonData={
+        'token':token,
+        'uid':uid,
+        'ts':str(int(time.time()*1000))
+    }
+    print(jsonData)
+    print(headers)
+    res = requests.post('https://1.tongji.edu.cn/api/sessionservice/session/login',json=jsonData,headers=headers)
+
     print(res.headers)
-    print(res.text)
+    print(res.cookies)
    
 

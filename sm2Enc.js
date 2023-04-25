@@ -1,5 +1,3 @@
-const sm2 = require('sm-crypto').sm2
-
 const  CryptoJS =require('crypto-js');
 
 function SM2Cipher(a) {

@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "crypto-js": "^4.1.1",
-    "sm-crypto": "^0.3.12"
+    "crypto-js": "^4.1.1"
   }
 }

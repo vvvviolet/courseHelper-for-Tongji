@@ -8,4 +8,4 @@
 课程数据部分
 ![data部分](https://github.com/vvvviolet/courseHelper-for-Tongji/blob/main/images/%E8%8E%B7%E5%8F%96data.png?raw=true)
 
-有问题加微信19821378920或者QQ 597076244
+有问题加QQ 597076244
